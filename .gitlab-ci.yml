@@ -1,0 +1,47 @@
+variables:
+  SERVICE_BASE_DIR: "/opt/gitlab-ci"
+
+stages:
+  - build
+
+build-test-env:
+  variables:
+    SERVICE_NAME: rock-admin-frontend
+    SERVICE_DIR: $SERVICE_BASE_DIR/$SERVICE_NAME
+  stage: build
+  script:
+    - npm i
+    - npm run build:test
+    - mkdir -p $SERVICE_DIR
+    - rsync -azruvh --delete dist/ $SERVICE_DIR/
+    - cd $SERVICE_DIR
+    - pwd
+    - ls
+  only:
+    - develop
+  tags:
+    - php-test
+  cache:
+    paths:
+      - node_modules/
+
+build-dev-env:
+  variables:
+    SERVICE_NAME: rock-admin-frontend
+    SERVICE_DIR: $SERVICE_BASE_DIR/$SERVICE_NAME
+  stage: build
+  script:
+    - npm i
+    - npm run build:dev
+    - mkdir -p $SERVICE_DIR
+    - rsync -azruvh --delete dist/ $SERVICE_DIR/
+    - cd $SERVICE_DIR
+    - pwd
+    - ls
+  only:
+    - develop2
+  tags:
+    - php-dev
+  cache:
+    paths:
+      - node_modules/

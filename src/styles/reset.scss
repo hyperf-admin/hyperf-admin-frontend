@@ -1,0 +1,44 @@
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,pre,table,th,td,form,fieldset,legend,input,button,textarea{
+  margin: 0;
+  padding: 0;
+}
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+html,body,fieldset,iframe,abbr{
+  border: 0;
+}
+img{
+  border: 0;
+}
+i,cite,em,var,address,dfn{
+  font-style: normal;
+}
+li{
+  list-style: none;
+}
+textarea{
+  overflow: auto;
+  resize: none;
+}
+a,button{
+  color: inherit;
+  cursor: pointer;
+}
+h1,h2,h3,h4,h5,h6,em,strong,b{
+  font-weight: bold;
+}
+del,ins,u,s,a{
+  text-decoration: none;
+}
+textarea,input,button,select,keygen,legend,[focus]{
+  outline: 0;
+  border: none;
+  background-color: transparent;
+}
+
+*{
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}

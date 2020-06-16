@@ -1,0 +1,87 @@
+// cover some element-ui styles
+
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
+  font-weight: 400 !important;
+}
+
+.el-upload {
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+
+// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+}
+
+// refine element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// dropdown
+.el-dropdown-menu {
+  a {
+    display: block
+  }
+}
+/*
+ mini模式split-button height29px偏差
+ 触发条件 win10,dell大屏显示器
+ */
+.el-dropdown{
+  .el-button--mini.el-dropdown__caret-button{
+    height: 28px;
+  }
+}
+// 图片组件关闭icon亮度调整
+.el-image-viewer__wrapper
+.el-image-viewer__close
+ {
+  top: 55px;
+  right: 90px;
+  color: #fff;
+}
+// 组件inputrange
+.el-form-item.is-error{
+  .v-input-range{
+    &:hover{
+      .range-split input, .range-start input, .range-end input{
+        border-color: #F56C6C;
+      }
+    }
+    &.isFocus{
+      .range-split input, .range-start input, .range-end input{
+        border-color: #F56C6C;
+      }
+    }
+  }
+}
+
+.form-create .el-form-item--small  .el-form-item__label {
+  height: 32px;
+}
+.form-create .el-form-item--mini  .el-form-item__label {
+  height: 28px;
+}
+// 级联下的input背景色被reset.css覆盖，导致文字重影
+.el-cascader__tags input {
+  background: #fff;
+}
