@@ -40,6 +40,7 @@ service.interceptors.request.use(
       config.headers['Page-Name'] = encodeURIComponent(store.getters.currentPageName)
       config.headers['Page-Url'] = location.href
       config.headers['X-Token'] = getToken()
+      config.headers['X-Module'] = store.state.app.moduleName
     }
     return config
   },
