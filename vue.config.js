@@ -165,10 +165,30 @@ module.exports = {
                   priority: 10,
                   chunks: 'initial' // only package third parties that are initially dependent
                 },
+                vue: {
+                  name: 'chunk-vue', // split elementUI into a single package
+                  priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+                  test: /[\\/]node_modules[\\/]_?vue(.*)/ // in order to adapt to cnpm
+                },
+                lodash: {
+                  name: 'chunk-lodash', // split elementUI into a single package
+                  priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+                  test: /[\\/]node_modules[\\/]_?lodash(.*)/ // in order to adapt to cnpm
+                },
                 elementUI: {
                   name: 'chunk-elementUI', // split elementUI into a single package
                   priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
                   test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
+                },
+                codeMirror: {
+                  name: 'chunk-codeMirror', // split elementUI into a single package
+                  priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+                  test: /[\\/]node_modules[\\/]_?codemirror(.*)/ // in order to adapt to cnpm
+                },
+                antv: {
+                  name: 'chunk-antv', // split elementUI into a single package
+                  priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+                  test: /[\\/]node_modules[\\/]_?@antv(.*)/ // in order to adapt to cnpm
                 },
                 jsonEditor: {
                   name: 'chunk-jsonEditor', // split elementUI into a single package
