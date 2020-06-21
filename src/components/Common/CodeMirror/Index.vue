@@ -2,27 +2,34 @@
   <div class="vue-codemirror" :class="{ merge }">
     <div v-if="merge" ref="mergeview" />
     <textarea v-else ref="textarea" :name="name" :placeholder="placeholder" />
-    <div>
+    <div style="float: right">
       <el-switch
         v-model="keymap_vim"
-        size="small"
-        active-text="VIM"
+        size="mini"
+        active-text="Vim"
         @change="vimSwitch"
       />
+      <el-switch
+        v-model="dark_theme"
+        size="mini"
+        active-text="Dark"
+        @change="changeTheme"
+      />
     </div>
-    <!--    <div style="font-size: 13px; width: 300px; height: 30px;">Key buffer: <span id="command-display"></span></div>-->
   </div>
 </template>
 
 <script>
 // import { debounce } from '@/utils'
 import _CodeMirror from 'codemirror/lib/codemirror'
+
 const CodeMirror = window.CodeMirror || _CodeMirror
 window.CodeMirror = CodeMirror
 // base style
 import 'codemirror/lib/codemirror.css'
 // theme css
 import 'codemirror/theme/base16-dark.css'
+import 'codemirror/theme/base16-light.css'
 // language
 import 'codemirror/mode/php/php.js'
 // import './data_focus_mode.js'
@@ -59,6 +66,8 @@ import 'codemirror/addon/fold/xml-fold.js'
 import 'codemirror/addon/hint/show-hint.css'
 import 'codemirror/addon/hint/show-hint.js'
 import 'codemirror/addon/hint/anyword-hint.js'
+
+import jsonLint from 'jsonlint'
 
 if (typeof Object.assign !== 'function') {
   Object.defineProperty(Object, 'assign', {
@@ -97,7 +106,8 @@ export default {
     },
     marker: {
       type: Function,
-      default: _ => {}
+      default: _ => {
+      }
     },
     unseenLines: {
       type: Array,
@@ -117,7 +127,8 @@ export default {
     },
     options: {
       type: Object,
-      default: () => {}
+      default: () => {
+      }
     },
     events: {
       type: Array,
@@ -130,6 +141,14 @@ export default {
     globalEvents: {
       type: Array,
       default: () => ([])
+    },
+    mode: {
+      type: String,
+      default: 'text/x-php'
+    },
+    type: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -138,6 +157,7 @@ export default {
       codemirror: null,
       cminstance: null,
       keymap_vim: true,
+      dark_theme: false,
       defaultOptions: {
         lineWrapping: true,
         matchBrackets: true,
@@ -145,12 +165,13 @@ export default {
         indentUnit: 4,
         tabSize: 4,
         foldGutter: true,
+        gutters: ['note-gutter', 'CodeMirror-linenumbers'],
         styleActiveLine: true,
         lineNumbers: true,
         line: true,
         keyMap: 'vim',
-        mode: 'text/x-php',
-        theme: 'base16-dark',
+        mode: this.$props.mode,
+        theme: 'default',
         indentAuto: true,
         // readOnly: true,
         extraKeys: {
@@ -160,8 +181,11 @@ export default {
           },
           // todo not working
           'Esc': function(cm) {
-            if (cm.getOption('fullScreen')) cm.setOption('fullScreen', false)
-            else return CodeMirror.Pass
+            if (cm.getOption('fullScreen')) {
+              cm.setOption('fullScreen', false)
+            } else {
+              return CodeMirror.Pass
+            }
           },
           'Enter': function(cm) {
             if (!cm.state.completionActive) {
@@ -170,7 +194,9 @@ export default {
             }
           }
         }
-      }
+      },
+      line_widget: [],
+      error_line: []
     }
   },
   watch: {
@@ -211,6 +237,10 @@ export default {
       }
       this.cminstance.on('change', cm => {
         this.content = cm.getValue()
+        if (this.$props.type === 'json') {
+          const json_info = this.isJson(this.content)
+          this.showJsonError(json_info)
+        }
         if (this.$emit) {
           this.$emit('input', this.content)
           this.$emit('change', this.content)
@@ -220,7 +250,6 @@ export default {
       CodeMirror.on(this.cminstance, 'keyup', (cm, event) => {
         const cur = cm.getCursor()
         const doc = cm.doc.getLine(cur.line).substr(cur.ch - 2, cur.ch)
-        console.log(doc, cur.ch, /[a-zA-z]{2,}/.test(doc))
         if (!cm.state.completionActive && /[a-zA-z]{2,}/.test(doc)) {
           // debounce(CodeMirror.commands.autocomplete(cm, null, { completeSingle: false }), 50)
         }
@@ -314,7 +343,7 @@ export default {
     pairUp() {
       const factory = (chart1, chart2) => {
         const obj = {}
-        const key = "'" + chart1 + "'"
+        const key = '\'' + chart1 + '\''
         obj['name'] = 'autoInsertParentheses' + chart1
         obj[key] = (cm) => {
           const cur = cm.getCursor()
@@ -330,14 +359,58 @@ export default {
       ].forEach(item => {
         this.cminstance.addKeyMap(factory(item[0], item[1]))
       })
+    },
+    isJson: function(str) {
+      str = str.replace(/\/\/[^"]+?$/gm, '').replace(/^\s*\/\/.*?$/gm, '')
+      try {
+        jsonLint.parse(str)
+        return true
+      } catch (e) {
+        return e.message
+      }
+    },
+    showJsonError(check) {
+      if (check === true) {
+        this.cminstance.clearGutter('note-gutter')
+        return
+      }
+      if (check !== '' & check !== 'Invalid array length') {
+        const match = /Parse error on line (\d+)/.exec(check)
+        const line = parseInt(match[1]) - 1
+        const div = document.createElement('i')
+        div.setAttribute('class', 'el-tag__close el-icon-close line-error')
+        this.cminstance.setGutterMarker(line, 'note-gutter', div)
+      }
+    },
+    changeTheme(val) {
+      this.cminstance.setOption('theme', val ? 'base16-dark' : 'default')
     }
   }
 }
 </script>
 
 <style>
-  .CodeMirror {
-    height: auto;
-    line-height:21px;
-  }
+    .vue-codemirror {
+        border-radius: 4px;
+        border: 1px solid #dcdfe6;
+    }
+    .CodeMirror {
+        height: auto;
+        line-height: 21px;
+    }
+    .line-error {
+        border-radius: 50%;
+        text-align: center;
+        position: relative;
+        cursor: pointer;
+        font-size: 12px;
+        height: 16px;
+        width: 16px;
+        line-height: 16px;
+        vertical-align: middle;
+        top: -1px;
+        right: -5px;
+        color: #fff;
+        background-color: #f56c6c;
+    }
 </style>

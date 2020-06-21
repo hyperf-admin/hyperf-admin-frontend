@@ -193,6 +193,12 @@ const map = {
     row.type = 'code-mirror'
     return row
   },
+  json2: (row) => {
+    row.type = 'code-mirror'
+    row.props.mode = 'application/json'
+    row.props.type = 'json'
+    return row
+  },
   'sub-form': (row) => {
     row.props.field = row.field
     return row
