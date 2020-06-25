@@ -144,7 +144,7 @@ service.interceptors.response.use(
     // config.data = Qs.parse(config.data)
     // 重新发起axios请求
     return backoff.then(() => {
-      return service(config)
+      return service(Object.assign({}, config, { 'baseURL': '' }))
     })
   }
 )

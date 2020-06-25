@@ -516,7 +516,7 @@ export default {
       }
       request({
         url: strVarReplace(this.$props.childsLoadApi, tree),
-        data: params
+        params
       }).then(res => {
         resolve(res.payload.childs || [])
       })
