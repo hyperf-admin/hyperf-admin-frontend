@@ -23,10 +23,9 @@
       <el-link v-if="typeof options.href === 'object'" :type="options.href.type || 'primary'" :href="varReplace(options.href.href, data)" :target="options.href.target || '_blank'">{{ value }}</el-link>
     </template>
     <template v-else-if="options.enum !== undefined">
-      <el-tag
-        size="small"
-        :type="options.enum[value]"
-      >{{ options.options ? (options.options[value] || value) : value }}
+      <template v-if="value === ''"> - </template>
+      <el-tag v-else size="small" :type="options.enum[value]">
+        {{ options.options ? (options.options[value] || value) : value }}
       </el-tag>
     </template>
     <template v-else-if="options.options">{{ options.options[value] || value }}</template>
@@ -58,6 +57,21 @@
     <template v-else-if="options.type === 'LineChart'">
       <line-chart v-if="isArray(value)" :data="value" :chart="{}" />
     </template>
+    <template v-else-if="options.type === 'progress'">
+      <el-progress
+        :type="options.props ? (options.props.type || 'circle') : 'circle'"
+        :text-inside="options.props ? (options.props.textInside || false) : false"
+        :stroke-width="options.props ? (options.props.strokeWidth || 6) : 6"
+        :status="options.props ? (options.props.status || null) : null"
+        :color="options.props ? (options.props.color || '') : ''"
+        :width="options.props ? (options.props.width || 50) : 50"
+        :show-text="options.props ? (options.props.showText || true) : true"
+        :stroke-linecap="options.props ? (options.props.strokeLinecap || 'round') : 'round'"
+        :percentage="value || 0"
+      />
+    </template>
+    <pre v-else-if="options.type === 'json'" style="overflow-x: auto">{{ value ? JSON.stringify(value, null , 2) : '-' }}</pre>
+
     <template v-else>
       <span v-for="(each, index) in isArray(value) ? value : [value]" :key="index">{{ each }}</span>
     </template>
@@ -80,7 +94,7 @@ export default {
   },
   props: {
     value: {
-      type: [String, Number, Array],
+      type: [String, Number, Array, Object],
       default: ''
     },
     options: {

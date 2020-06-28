@@ -1,3 +1,12 @@
+<!--
+  查看详情组件
+  props: confirmTitle 操作命名
+  props: cancelTitle 操作命名
+  props: infoData 数据
+  props: isShowBtn 是否线上按钮
+  $emit: handle-confirm 确认操作
+  $emit: handle-cancel 取消操作
+-->
 <template>
   <div>
     <el-row :gutter="100" type="flex" style="flex-wrap: wrap">

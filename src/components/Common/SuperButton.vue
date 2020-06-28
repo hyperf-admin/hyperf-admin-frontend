@@ -249,12 +249,15 @@ export default {
         method: this._.toUpper(this.$props.method || 'POST'),
         data: Object.assign({}, this.getInjectData(), formData)
       }).then(res => {
+        const _this = this
         this.submitLoading = false
         this.showDialog = false
         this.loading = false
         this.popoverShow = false
         this.showMessage(res.payload.messageRule, res.message || '操作成功')
-        this.$props.afterAction(this.$props)
+        setTimeout(function() {
+          _this.$props.afterAction(_this.$props)
+        }, Math.random(500, 1000))
       }).catch(exc => {
         this.submitLoading = false
         this.loading = false

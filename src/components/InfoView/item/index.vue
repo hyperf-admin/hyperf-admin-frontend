@@ -1,3 +1,9 @@
+<!--
+  详情信息卡
+  props: cardData 信息模块数据
+  $emit: handle-confirm 确认操作
+  $emit: handle-cancel 取消操作
+-->
 <template>
   <div
     class="rock-info-card"

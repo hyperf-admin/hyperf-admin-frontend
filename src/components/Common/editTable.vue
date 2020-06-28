@@ -21,9 +21,6 @@
         <template v-else-if="item.type === 'number'">
           <el-input-number v-model="scope.row[item.field]" size="small" />
         </template>
-        <template v-else-if="item.type === 'category'">
-          <category v-model="scope.row[item.field]" :api="item.api" />
-        </template>
         <template v-else-if="item.type === 'switch'">
           <el-tooltip :content="scope.row[item.field] === 1 ? '启用' : '禁用'" placement="top">
             <el-switch
@@ -59,12 +56,11 @@
 </template>
 <script>
 import UploadImage from '@/components/Common/uploadImage'
-import category from '@/components/Common/category'
+import request from '@/utils/request'
 export default {
   name: 'EditTable',
   components: {
-    UploadImage,
-    category
+    UploadImage
   },
   props: {
     header: {
@@ -82,9 +78,24 @@ export default {
   },
   data() {
     return {
+      categoryOptions: {}
     }
   },
+  created() {
+    this.categoryInit()
+  },
   methods: {
+    categoryInit() {
+      // 检测表头中是否有级联类型
+      const categoryHeader = this.header.filter(item => item.type === 'category')
+      if (categoryHeader.length > 0) {
+        categoryHeader.forEach(item => {
+          item.api && request({ url: item.api }).then(res => {
+            this.$set(this.categoryOptions, item.field, res.payload)
+          })
+        })
+      }
+    },
     delAction: function(row, index) {
       this.data = this.data.splice(index, 1)
     }

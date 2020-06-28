@@ -1,10 +1,3 @@
-/**
- * 测试数据插入位置
- * analysis.vue
-import { allTest } from '@/components/Charts/chartMock'
-payload.result = [...res.payload.result, ...allTest]
- */
-
 import Mock from 'mockjs'
 const MockData = Mock.mock({
   // 单个y轴模拟数据

@@ -34,10 +34,7 @@ export default {
       innerRadius: 0.58
     }).rotate(360)
     // 设置提示
-    chart.tooltip({
-      showCrosshairs: true,
-      shared: true
-    })
+    chart.tooltip({})
 
     let total = 0
     data.forEach(item => {

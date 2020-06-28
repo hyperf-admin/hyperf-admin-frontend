@@ -37,5 +37,6 @@ export const omsIconList = [
   'oms-icon-sort',
   'oms-icon-happy',
   'oms-icon-duanxin',
-  'oms-icon-aikucun'
+  'oms-icon-aikucun',
+  'oms-icon-wenhao'
 ]

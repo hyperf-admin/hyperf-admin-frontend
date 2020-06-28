@@ -24,7 +24,7 @@
     >
       <el-scrollbar>
         <div class="icon-content">
-          <div v-for="(item, index) in icons" :key="index" :class="{active: name === item, 'icon-item': true}" @click="choseOne(item)">
+          <div v-for="(item, index) in icons" :key="index" :class="{active: name === item, 'icon-item': true}" :title="item" @click="choseOne(item)">
             <i v-if="item.indexOf('oms-icon') > -1" :class="item" />
             <icon v-else :icon="item" />
           </div>

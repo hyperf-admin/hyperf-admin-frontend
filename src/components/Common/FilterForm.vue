@@ -108,15 +108,30 @@ export default {
           rules.push(rule)
         }
       })
-      rules.push(this.btnRule)
+
+      if (rules.length > 0) {
+        rules.push(this.btnRule)
+      }
+
       this.filterRule = this._.cloneDeep(rules)
     },
     onSubmit: function(formData) {
       this.sync2query()
     },
     onReset: function(formCreate) {
-      formCreate.resetFields()
-      this.sync2query()
+      const formCreateData = formCreate.formData()
+      Object.keys(formCreateData).forEach(key => {
+        if (formCreateData[key] !== '') {
+          formCreate.setValue(key, null)
+        }
+      })
+      const formData = {}
+      if (this.tabId.length > 0) {
+        formData.tab_id = this.tabId
+      }
+      this.$router.push({
+        query: formData
+      })
     },
     onMounted($f) {
       console.log('FilterForm', $f)

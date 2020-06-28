@@ -1,13 +1,7 @@
-/**
-testCode: 插入到form.vue
-import { allTest } from '@/components/CustomForm/VUpload/test'
-this.rule = [...allTest, ...res.payload.form]
-> http://localhost:9528/system/#/user/form 单个图片上传场景
- */
-const demoImg = 'http://xxxxxx.oss-cn-beijing.aliyuncs.com/1/202005/d88c70177909219c796d48f6271c16e5.jpg'
-const demoFile = 'http://xxxxxx.oss-cn-beijing.aliyuncs.com/1/202005/ea44833429be5fcfc09d3986a8a2d521.vue'
-const demoLongImg = 'http://xxxxxx.oss-cn-beijing.aliyuncs.com/1/202005/ccb89ff883f64059584bc2032a5a584a.png'
-const demoHeightImg = 'http://xxxxxx.oss-cn-beijing.aliyuncs.com/1/202005/195edb441ff6a44be058e2c68ea4ddd1.png'
+const demoImg = 'http://hyperf-admin.oss-cn-beijing.aliyuncs.com/1/202005/d88c70177909219c796d48f6271c16e5.jpg'
+const demoFile = 'http://hyperf-admin.oss-cn-beijing.aliyuncs.com/1/202005/ea44833429be5fcfc09d3986a8a2d521.vue'
+const demoLongImg = 'http://hyperf-admin.oss-cn-beijing.aliyuncs.com/1/202005/ccb89ff883f64059584bc2032a5a584a.png'
+const demoHeightImg = 'http://hyperf-admin.oss-cn-beijing.aliyuncs.com/1/202005/195edb441ff6a44be058e2c68ea4ddd1.png'
 export const uploadDefaultJson = {
   type: 'v-upload',
   field: 'testUpload',
@@ -16,7 +10,10 @@ export const uploadDefaultJson = {
   props: {
     limit: 2,
     format: ['jpg', 'jpeg', 'png', 'gif'],
-    maxSize: 100
+    maxSize: 100,
+    beforeRemove() {
+      console.warn('不能删除')
+    }
   }
 }
 
@@ -27,7 +24,9 @@ export const uploadDownload = {
   value: [demoFile, demoImg, demoLongImg, demoHeightImg],
   props: {
     downloadable: true,
-    limit: 5
+    limit: 5,
+    width: 160,
+    height: 100
   }
 }
 export const oldConfig = {
@@ -37,7 +36,9 @@ export const oldConfig = {
   'value': [demoImg, demoLongImg],
   'props': {
     'multiple': true,
-    'limit': 5
+    'limit': 5,
+    width: 60,
+    height: 100
   }
 }
 export const testSubForm = {

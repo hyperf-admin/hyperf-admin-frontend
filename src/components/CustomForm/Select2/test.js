@@ -1,8 +1,3 @@
-/**
-testCode: 插入到form.vue
-import { allTest } from '@/components/CustomForm/Select2/test'
-this.rule = [...allTest, ...res.payload.form]
- */
 const testOptions = [
   { value: 11, label: '第 _ num11 _ 个' },
   { value: '1', label: '第 _ yi _ 个' },
