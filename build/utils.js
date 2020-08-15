@@ -18,7 +18,7 @@ const getEntry = function() {
       // 在 dist/index.html 的输出
       filename: `${fileName}/index.html`,
       // 提取出来的通用 chunk 和 vendor chunk。
-      chunks: ['chunk-libs', 'chunk-elementUI', 'chunk-common', fileName],
+      chunks: ['chunk-libs', 'chunk-vue', 'chunk-elementUI', 'chunk-common', fileName],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
