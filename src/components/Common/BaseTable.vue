@@ -276,8 +276,8 @@ export default {
       showTableHeader: [],
       sourceTableHeader: [],
       page: {
-        pageSize: 20,
-        sizes: [20, 100, 200, 300, 400],
+        pageSize: this.$props.options.pageSize !== undefined ? this.$props.options.pageSize : 1,
+        sizes: this.$props.options.page.sizes !== undefined ? this.$props.options.page.sizes : [20, 100, 200, 300, 400],
         currentPage: 1,
         total: 200
       },
