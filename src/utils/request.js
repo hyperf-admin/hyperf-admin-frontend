@@ -28,6 +28,13 @@ const config = {
 // create an axios instance
 const service = axios.create(config)
 
+function proxyRewrite(config) {
+  if (config.url.indexOf('_proxy') !== -1) {
+    config.url = '/system/proxy?proxy_url=' + encodeURIComponent(config.url.split('@')[config.url.split('@').length - 1])
+  }
+  return config.url
+}
+
 // request interceptor
 service.interceptors.request.use(
   config => {
@@ -42,6 +49,8 @@ service.interceptors.request.use(
       config.headers['X-Token'] = getToken()
       config.headers['X-Module'] = store.state.app.moduleName
     }
+    proxyRewrite(config)
+    console.log(config)
     return config
   },
   error => {

@@ -156,7 +156,7 @@ export default {
       content: '',
       codemirror: null,
       cminstance: null,
-      keymap_vim: true,
+      keymap_vim: false,
       dark_theme: false,
       defaultOptions: {
         lineWrapping: true,
@@ -337,8 +337,7 @@ export default {
       this.cminstance.doc.cleanGeneration = cleanGeneration
     },
     vimSwitch(status) {
-      this.destroy()
-      this.initialize({ keyMap: status ? 'vim' : 'sublime' })
+      this.cminstance.setOption('keyMap', status ? 'vim' : 'sublime')
     },
     pairUp() {
       const factory = (chart1, chart2) => {

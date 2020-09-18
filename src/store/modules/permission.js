@@ -68,8 +68,16 @@ function transRoute(item) {
         if (type === 'list') {
           type = 'tablist'
         }
+
+        if (type === 'list2') {
+          type = 'list2'
+        }
+
         if (type.indexOf('conf_') > -1) {
           type = 'cconf'
+        }
+        if (type.indexOf('mock_') > -1) {
+          type = 'mock'
         }
         if (type.indexOf('report_') > -1) {
           type = 'report'
@@ -88,7 +96,7 @@ function transRoute(item) {
     hidden: item.hidden !== undefined ? item.hidden : false,
     children: [],
     name: 'menu_' + item.menu_name + '_' + (item.id || 0),
-    meta: { title: item.menu_name, icon: item.icon !== undefined ? item.icon : '' }
+    meta: { title: item.menu_name, icon: item.icon !== undefined ? item.icon : '', id: item.id }
   }
 }
 
@@ -163,6 +171,8 @@ const actions = {
             return item
           })
 
+          console.log(loadMenuData)
+
           const tree = generaTree(_.cloneDeep(loadMenuData))
 
           generaMenu(asyncRoutes, loadMenuData, tree)
@@ -172,6 +182,7 @@ const actions = {
           } else {
             accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
           }
+          console.log(asyncRoutes)
           commit('SET_ROUTES', tree)
           resolve(accessedRoutes)
         }
