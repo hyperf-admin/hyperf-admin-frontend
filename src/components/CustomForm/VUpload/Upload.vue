@@ -195,7 +195,7 @@ export default {
         })
         return
       }
-      const url = response.payload.file_path
+      const url = response.payload.url
       this.$emit('success', response.payload)
       this.$notify.success({
         title: '上传成功',
