@@ -6,6 +6,7 @@ module.exports = {
   sidebarLogo: true,
   menuFilter: true,
   authType: 'local',
+  baseAPI: process.env.VUE_APP_BASE_API,
   appid: process.env.VUE_APP_SSO_APPID,
   ssoType: process.env.VUE_APP_SSO_TYPE,
   sso: process.env.VUE_APP_SSO,

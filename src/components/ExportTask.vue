@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-alert>{{ countdown }}秒后刷新</el-alert>
     <el-table
       v-loading="loading"
       :data="tasks"
@@ -45,8 +46,10 @@ export default {
   data() {
     return {
       taskInterval: null,
+      downInterval: null,
       tasks: [],
-      loading: false
+      loading: false,
+      countdown: 10
     }
   },
   watch: {
@@ -61,16 +64,24 @@ export default {
       this.taskInterval = setInterval(() => {
         this.getExports()
       }, 10000)
+      this.downInterval = setInterval(() => {
+        if (this.countdown === 0) {
+          this.countdown = 10
+        } else {
+          this.countdown--
+        }
+      }, 1000)
     } else {
-      this.loading = true
       this.getExports()
     }
   },
   beforeDestroy() {
     clearInterval(this.taskInterval)
+    clearInterval(this.downInterval)
   },
   methods: {
     getExports() {
+      this.loading = true
       request({
         url: '/user/exports',
         method: 'get'
@@ -96,7 +107,7 @@ export default {
       return null
     },
     getUrl(url) {
-      return location.origin + '/omsapi/upload/ossprivateurl?key=' + url
+      return location.origin + this.$store.state.settings['baseAPI'] + '/upload/ossprivateurl?key=' + url
     }
   }
 }
