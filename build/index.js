@@ -32,4 +32,9 @@ if (process.env.npm_config_preview || rawArgv.includes('--preview')) {
   })
 } else {
   run(`vue-cli-service build ${args}`)
+  const fs = require('fs');
+  fs.writeFileSync('./dist/index.html', '<!DOCTYPE html>\n' +
+    '<html>\n' +
+    '<meta http-equiv="refresh" content="0;url=/default/">\n' +
+    '</html>\n')
 }
