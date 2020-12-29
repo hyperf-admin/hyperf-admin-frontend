@@ -290,6 +290,7 @@ export default {
       return strVarReplace(str, data)
     },
     transProps(componentProps) {
+      componentProps = this._.cloneDeep(componentProps)
       Object.keys(componentProps).forEach(item => {
         if (type(componentProps[item]) === 'string') {
           componentProps[item] = strVarReplace(componentProps[item], this.$props.baseData)
