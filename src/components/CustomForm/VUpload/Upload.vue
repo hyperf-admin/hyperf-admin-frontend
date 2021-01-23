@@ -4,6 +4,7 @@
     class="oms-upload"
     multiple
     list-type="picture-card"
+    :accept="accept"
     :headers="headers"
     :limit="limit"
     :class="{hide:showUpload}"
