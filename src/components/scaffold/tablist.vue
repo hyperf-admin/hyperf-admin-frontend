@@ -128,7 +128,6 @@ export default {
       tableHeader: [],
       titleGroup: [],
       rowActions: [],
-      activeTabIndex: '0',
       selectionAble: false,
       options: Object.assign({
         form_path: '',
@@ -149,6 +148,13 @@ export default {
     }
   },
   computed: {
+    activeTabIndex: function() {
+      const tabId = this.$route.query.tab_id
+      const index = this._.findIndex(this.tableTabs, function(o) {
+        return o.value === tabId
+      })
+      return (index > 0 ? index : 0).toString()
+    },
     activeTab: function() {
       if (this.$route.query.tab_id) {
         return this.$route.query.tab_id
@@ -179,12 +185,6 @@ export default {
         const { tableTabs = [], tableHeader = [], options = {}} = res.payload || {}
         if (tableTabs.length > 0) {
           this.tableTabs = tableTabs
-          if (this.$route.query.tab_id) {
-            const tabId = this.$route.query.tab_id
-            this.activeTabIndex = this._.findIndex(this.tableTabs, function(o) {
-              return o.value === tabId
-            }).toString()
-          }
         }
         this.filterRule = res.payload.filterRule || []
         this.tableHeader = tableHeader.map(item => ({ ...item, className: this.cellClassName }))
