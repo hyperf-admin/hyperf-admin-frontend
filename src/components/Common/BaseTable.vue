@@ -95,6 +95,7 @@
         :empty-text="emptyText"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         @selection-change="handleSelectionChange"
+        @sort-change="sortChange"
       >
         <el-table-column v-if="selectionAble" fixed type="selection" width="55" />
         <el-table-column v-if="actions.length > 0" fixed="right" :width="actionColumnWidth()">
