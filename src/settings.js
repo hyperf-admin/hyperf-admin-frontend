@@ -1,6 +1,6 @@
 module.exports = {
   title: 'HyperfAdmin',
-  logo: 'https://cdn.jsdelivr.net/gh/daodao97/FigureBed@master/uPic/hyperf-admin.png',
+  logo: 'https://gitee.com/daodao97/asset/raw/master/uPic/hyperf-admin.png',
   tokenKey: 'hyperf_amdin_token',
   fixedHeader: false,
   sidebarLogo: true,

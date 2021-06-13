@@ -288,8 +288,8 @@ $light_gray:#eee;
   }
 
     .title {
-      background: url('http://oms.mengtuiapp.com/img/logo-small.png') center center no-repeat;
-      height: 40px;
+      //background: url('https://gitee.com/daodao97/asset/raw/master/uPic/hyperf-admin.png') center center no-repeat;
+      //height: 40px;
       margin: 0px auto 30px auto;
       text-align: center;
       font-weight: bold;
